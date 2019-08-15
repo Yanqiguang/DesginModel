@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sofa="http://sofastack.io/schema/sofaboot"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://sofastack.io/schema/sofaboot   http://sofastack.io/schema/sofaboot.xsd"   default-lazy-init="false">
+
+<!--    &lt;!&ndash;服务端发布服务&ndash;&gt;
+    <sofa:service ref="helloSyncService" interface="com.rpc.syn.code.HelloSyncService">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="2000"/>
+            <sofa:method name="saySync" timeout="3000"></sofa:method>
+        </sofa:binding.bolt>
+        <sofa:binding.dubbo/>
+        <sofa:binding.rest/>
+    </sofa:service>-->
+
+<!--
+    &lt;!&ndash;客户端引用服务&ndash;&gt;
+    <sofa:reference id="helloSyncServiceReference" interface="com.rpc.syn.code.HelloSyncService">
+        <sofa:binding.bolt>
+            &lt;!&ndash;设置超时、地址等待参数 &ndash;&gt;
+            <sofa:global-attrs timeout="3000" address-wait-time="1000"></sofa:global-attrs>
+            &lt;!&ndash;配置直连地址&ndash;&gt;
+            <sofa:route target-url="127.0.0.1"></sofa:route>
+            &lt;!&ndash;方法级别的配置&ndash;&gt;
+            <sofa:method name="saySync" timeout="3000"></sofa:method>
+        </sofa:binding.bolt>
+    </sofa:reference>
+-->
+
+    <!--  future  异步调用，服务端返回的结果会被 SOFARPC 缓存，当客户端需要结果的时候，再主动调用 API 获取-->
+    <sofa:service ref="rPCFutureService" interface="com.rpc.asyn.future.RPCFutureService">
+        <sofa:binding.bolt/>
+    </sofa:service>
+    <sofa:reference id="rPCFutureService"  interface="com.rpc.asyn.future.RPCFutureService" >
+        <sofa:binding.bolt>
+            <sofa:global-attrs type="future"></sofa:global-attrs>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+
+    <bean id="springContextUtils" class="com.utils.SpringContextUtils" />
+
+    <bean id = "genericObjectPoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+        <property name="maxTotal" value="300" />
+        <property name="maxIdle" value="200" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+    </bean>
+    <!-- 根据构造方法参数顺序配置 -->
+    <bean id = "etrustJedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="genericObjectPoolConfig" />
+        <constructor-arg index="1" value="127.0.0.1" />
+        <constructor-arg index="2" value="16001" />
+        <constructor-arg index="3" value="30000" />
+        <constructor-arg index="4" value="123456" />
+        <constructor-arg index="5" value="1" />
+    </bean>
+
+    <bean id="person" class="com.rpc.syn.code.Person">
+        <property name="age">
+            <value>25</value>
+        </property>
+        <property name="name">
+            <value>lester.yan</value>
+        </property>
+    </bean>
+
+
+</beans>

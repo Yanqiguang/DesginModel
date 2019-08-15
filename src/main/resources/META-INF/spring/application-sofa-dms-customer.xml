@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sofa="http://schema.alipay.com/sofa/schema/slite"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       		http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://schema.alipay.com/sofa/schema/slite
+            http://schema.alipay.com/sofa/slite.xsd "  default-lazy-init="false">
+
+
+
+    <!-- 是 Spring Bean 的单例服务标识 -->
+    <!-- oup 命名格式为 S\_应用名\_服务名，是消费者唯一标识，不允许存在两个 sofa:consumer 配置相同的 group 属性值 -->
+    <!-- fa:listener 元素的 ref 属性值设置为消息接监听器单例服务标识 -->
+    <!-- fa:channel 元素的 value 值是此消费者订阅的消息类型 TOPIC 值，如果订阅的消息类型涉及多个 TOPIC，必须配置多个 sofa:channel 元素 -->
+    <!-- fa:event 元素配置具体的消息订阅信息，eventType 属性值默认设置为 direct，eventCode 属性值设置为消息类型 eventcode 值，persistence 属性值设置为持久订阅（true）或者非持久订阅（false） -->
+
+    <sofa:consumer id="mqConsumer" group="S_appname_service">
+        <sofa:listener ref="dmsCustomerListener"/>
+        <sofa:channels>
+            <sofa:channel value="TP_DEFAULT">
+                <sofa:event eventType="direct" eventCode="EC_DEFAULT" persistence="true"/>
+            </sofa:channel>
+        </sofa:channels>
+        <sofa:binding.msg_broker/>
+    </sofa:consumer>
+
+
+
+
+</beans>

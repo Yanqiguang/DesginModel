@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: SOFABOOT-dev
+##redis 配置信息
+  redis:
+    host: 127.0.0.1
+    port: 16001
+    password: 123456
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+    timeout: 3000
+  profiles:
+    active: dev
+  aop:
+    proxy-target-class: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: tis_cloud2
+    password: 9VpScEoo
+    url: jdbc:mysql://rm-p2u9w5r7o08xkub48841.mysql.rds.aliyuncs.com:3306/party?useUnicode=true&characterEncoding=utf8&useLocalSessionState=true&connectTimeout=10000&socketTimeout=60000
+
+
+run:
+  mode: DEV
+
+server:
+  port: 8889
+
+
+
+height: 190
+
+logging:
+  path: E:/mine/DesignModel
+
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+---
+spring:
+  profiles: test
+  application:
+    name: SOFABOOT-test
+
+
+
+
+---
+spring:
+  profiles: prd
+  application:
+    name: SOFABOOT-prd

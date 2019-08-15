@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sofa="http://schema.alipay.com/sofa/schema/slite"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       		http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://schema.alipay.com/sofa/schema/slite
+            http://schema.alipay.com/sofa/slite.xsd "  default-lazy-init="false">
+
+    <!-- id 是 Spring Bean 的单例服务标识 -->
+    <!-- group 命名格式为 P_应用名_服务名，是发布者唯一标识，不允许存在两个 sofa:publisher 配置相同的 group 属性值 -->
+    <!-- sofa:channel 元素的 value 值是此发布者发送的消息类型 TOPIC 值，如果发送消息类型涉及多个 TOPIC，必须配置多个 sofa:channel 元素 -->
+
+    <sofa:publisher id="mqPublisher" group="P_appname_service">
+        <sofa:channels>
+            <sofa:channel value="TP_DEFAULT"/>
+        </sofa:channels>
+        <sofa:binding.msg_broker/>
+    </sofa:publisher>
+
+
+
+</beans>

@@ -1,0 +1,15 @@
+{
+  "status": "UP",
+  "sofaBootComponentHealthCheckInfo": {
+    "status": "UP"
+  },
+  "springContextHealthCheckInfo": {
+    "status": "UP"
+  },
+  "DiskSpaceHealthIndicator": {
+    "status": "UP",
+    "total": 178094166016,
+    "free": 171864453120,
+    "threshold": 10485760
+  }
+}

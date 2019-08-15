@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.distributed.redisson.mapper.RedissonMapper">
+    <select id="query" parameterType="com.distributed.redisson.model.CustomerVO" resultType="com.distributed.redisson.model.CustomerVO" >
+        SELECT
+            FIRST_NAME firstName,
+            BIRTHDAY birthdate,
+            GENDER gender,
+            CERTI_TYPE certiType,
+            CERTI_CODE certiCode,
+            CUSTOMER_ID customerId
+        FROM
+            party.t_customer_copy1 c
+        WHERE
+            c.FIRST_NAME = #{firstName}
+          AND c.BIRTHDAY = #{birthdate}
+          AND c.GENDER = #{gender}
+          AND c.CERTI_TYPE = #{certiType}
+          AND c.CERTI_CODE =  #{certiCode}
+    </select>
+
+    <update id="update"  parameterType="com.distributed.redisson.model.CustomerVO" >
+        UPDATE party.t_customer_copy1 c
+        SET c.UPDATED_BY = 999999,
+            c.UPDATE_TIME = now()
+        WHERE
+            c.FIRST_NAME = '12312312'
+            AND c.BIRTHDAY = #{birthdate}
+            AND c.GENDER = #{gender}
+            AND c.CERTI_TYPE = #{certiType}
+            AND c.CERTI_CODE =  #{certiCode}
+    </update>
+    <insert id="create" parameterType="com.distributed.redisson.model.CustomerVO">
+    INSERT INTO party.t_customer_copy1
+        (FIRST_NAME,CERTI_CODE,CERTI_TYPE,BIRTHDAY,GENDER,CUSTOMER_ID,INSERTED_BY,INSERT_TIME,UPDATE_TIME,INSERT_TIMESTAMP,UPDATE_TIMESTAMP,UPDATED_BY)
+    VALUES (#{firstName},#{certiCode},
+            #{certiType},#{birthdate},#{gender},#{customerId},999999,now(),now(),now(),now(),999999)
+    </insert>
+</mapper>
